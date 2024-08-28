@@ -1,0 +1,45 @@
+﻿@page "/supplierinfo"
+@page "/supplierinfo/{suppId:int}"
+
+
+<h1>NorthWind</h1>
+
+<div class="card" style="background-color:green">
+    <h1>@CompanyName</h1>
+
+    <div class="card-body" style="background-color:lightgreen">
+        <p>@ContactName</p>
+        <p>@City</p>
+    </div>
+</div>
+
+@*Bonus!*@
+@if (City == "London")
+{
+    <div>
+        London baby!
+    </div>
+}
+
+
+
+@code {
+    [Inject]
+    private Models.NorthwindContext _dbContext { get; set; }
+
+    public string CompanyName { get; set; }
+    public string ContactName { get; set; }
+    public string City { get; set; }
+
+    [Parameter]
+    public int SuppId { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        var supplierInfo = _dbContext.Suppliers.First(s => s.SupplierId == SuppId);
+        CompanyName = supplierInfo.CompanyName;
+        ContactName = supplierInfo.ContactName;
+        City = supplierInfo.City;
+    }
+
+}

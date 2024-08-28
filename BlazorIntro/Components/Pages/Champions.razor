@@ -1,0 +1,65 @@
+﻿@page "/champions"
+
+<PageTitle>Champions</PageTitle>
+
+<h1>Champions</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Damage</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var champ in Champs)
+        {
+            <tr>
+                <td>@champ.Id</td>
+                <td>@champ.Name</td>
+                <td>@champ.Damage</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@code {
+    public class ChampionViewModel
+    {
+
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int Damage { get; set; }
+    }
+
+    public List<ChampionViewModel> Champs { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Champs = new List<ChampionViewModel>();
+        Champs.Add(new ChampionViewModel
+        {
+            Id = 1,
+            Name = "Annie",
+            Damage = 100,
+        });
+        Champs.Add(new ChampionViewModel
+        {
+            Id = 2,
+            Name = "Brand",
+            Damage = 110,
+        });
+        Champs.Add(new ChampionViewModel
+        {
+            Id = 3,
+            Name = "Calista",
+            Damage = 130,
+        });
+    }
+
+
+
+}

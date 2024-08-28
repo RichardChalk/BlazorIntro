@@ -1,0 +1,59 @@
+﻿@page "/northwind"
+
+<h1>Alla Suppliers</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Company Name</th>
+            <th scope="col">Region</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var supp in Suppliers)
+        {
+            <tr>
+                <td>@supp.Id</td>
+                <td>@supp.CompanyName</td>
+                <td>@supp.Region</td>
+                <td>
+                    <a href="@($"/supplierinfo/{supp.Id}")"
+                       class="btn btn-primary">
+                        Mer info
+                    </a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+
+    @code {
+        [Inject]
+        private Models.NorthwindContext _dbContext { get; set; }
+
+public class SupplierViewModel
+    {
+        public int Id { get; set; }
+        public string CompanyName { get; set; }
+        public string Region { get; set; }
+    }
+
+    public List<SupplierViewModel> Suppliers { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Suppliers = new List<SupplierViewModel>();
+        Suppliers = _dbContext.Suppliers.Select(s => new SupplierViewModel
+        {
+            Id = s.SupplierId,
+            CompanyName = s.CompanyName,
+            Region = s.Region
+        }).ToList();
+    }
+
+
+    }
